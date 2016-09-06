@@ -13,7 +13,9 @@ export class TableData<T> {
 	updateEvent = new EventEmitter<T[]>();
 	private tableData: T[];
 
-	constructor(private tableName: string, private http: HttpService) {}
+	constructor(private tableName: string, private http: HttpService) {
+
+	}
 
 	getTableData(): void {
 
@@ -177,30 +179,30 @@ export class AppService {
 	}
 */
 
-	/*
-	 getCategories(): void {
+/*
+	getCategories(): void {
 
-	 if (this.categories && this.categories.length >= 0) {
-	 this.categoriesUpdated.emit(this.categories);
-	 return;
-	 }
+		if (this.categories && this.categories.length >= 0) {
+			this.categoriesUpdated.emit(this.categories);
+			return;
+		}
 
-	 // this.http.getCategories().subscribe(
-	 this.http.getTableData<Category>('categories').subscribe(
-	 (data) => {
-	 if (data.length == 0) {
-	 console.log('Keine Kategorien gefunden');
-	 this.categories = [];
-	 }
-	 else {
-	 this.categories = data;
-	 this.categoriesUpdated.emit(this.categories);
-	 }
-	 },
-	 error => console.log('error:', error)
-	 );
-	 }
-	 */
+		// this.http.getCategories().subscribe(
+		this.http.getTableData<Category>('categories').subscribe(
+				(data) => {
+					if (data.length == 0) {
+						console.log('Keine Kategorien gefunden');
+						this.categories = [];
+					}
+					else {
+						this.categories = data;
+						this.categoriesUpdated.emit(this.categories);
+					}
+				},
+				error => console.log('error:', error)
+		);
+	}
+*/
 
 }
 

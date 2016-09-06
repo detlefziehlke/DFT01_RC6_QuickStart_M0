@@ -35,38 +35,38 @@ export class HttpService {
 		return this.http.get(url + accountId).map(response => response.json());
 	}
 
-/*
-	getAccounts(): Observable<Account[]> {
-		let url = 'http://macbook-pro:8080/finance/api/getAccounts/';
-		return this.http.get(url)
-				.map((response: Response) => response.json());
-	}
-*/
+	/*
+	 getAccounts(): Observable<Account[]> {
+	 let url = 'http://macbook-pro:8080/finance/api/getAccounts/';
+	 return this.http.get(url)
+	 .map((response: Response) => response.json());
+	 }
+	 */
 
-/*
-	getPartners(): Observable<Partner[]> {
-		let url = 'http://macbook-pro:8080/finance/api/getPartners/';
-		return this.http.get(url)
-				.map((response: Response) => response.json());
-	}
-*/
+	/*
+	 getPartners(): Observable<Partner[]> {
+	 let url = 'http://macbook-pro:8080/finance/api/getPartners/';
+	 return this.http.get(url)
+	 .map((response: Response) => response.json());
+	 }
+	 */
 
-/*
-	getCategories(): Observable<Category[]> {
-		let url = 'http://macbook-pro:8080/finance/api/getCategories/';
-		return this.http.get(url)
-				.map((response: Response) => response.json());
-	}
-*/
+	/*
+	 getCategories(): Observable<Category[]> {
+	 let url = 'http://macbook-pro:8080/finance/api/getCategories/';
+	 return this.http.get(url)
+	 .map((response: Response) => response.json());
+	 }
+	 */
 
-/*
-	getInfotypes(): Observable<Infotype[]> {
-		let url = 'http://macbook-pro:8080/finance/api/getInfotypes/';
-		return this.http.get(url)
-				.map((response: Response) => response.json());
-	}
+	/*
+	 getInfotypes(): Observable<Infotype[]> {
+	 let url = 'http://macbook-pro:8080/finance/api/getInfotypes/';
+	 return this.http.get(url)
+	 .map((response: Response) => response.json());
+	 }
 
-*/
+	 */
 
 	getBookingById(id: number): Observable<Booking[]> {
 		let url = 'http://macbook-pro:8080/finance/api/getEntriesById/' + id;
