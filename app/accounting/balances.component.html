@@ -1,0 +1,47 @@
+<h3>Kontostände</h3>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-striped">
+      <!--<caption>Kontosalden</caption>-->
+
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Konto</th>
+        <th class="dz-num-cell">Saldo</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let balance of balances | async">
+        <td>{{balance.id}}
+        <td><a [routerLink]="['/account', balance.id]">{{balance.konto}}</a>
+        <!--['/hero', hero.id]-->
+        <td class="dz-num-cell"
+            [ngClass]="{'dz-debit': balance.saldo < 0,'dz-credit': balance.saldo > 0}">
+          {{balance.saldo | dzCurrency}}
+      </tr>
+      </tbody>
+
+      <tfoot style="font-weight: bold">
+      <tr>
+        <td>Summe</td>
+        <td></td>
+        <td class="dz-num-cell"
+            [ngClass]="{'dz-debit': !balancesSumIsCredit(),'dz-credit': balancesSumIsCredit()}">
+          <span #v>
+          {{balancesSum | async | dzCurrency}}
+          </span>
+        </td>
+      </tr>
+      </tfoot>
+
+    </table>
+  </div>
+</div>
+<br>
+<hr>
+<br>
+<label for="testUpdateInput">Test Update</label>
+<input type="text" id="testUpdateInput" #testUpdate>
+<button (click)="onTestUpdate(testUpdate.value)" class="btn btn-default">Update</button>

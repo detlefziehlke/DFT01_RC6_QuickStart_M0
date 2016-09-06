@@ -1,0 +1,31 @@
+<h3>Buchungen für Konto {{konto_name}} (id={{konto_id | dzLeadingZeros:2}})</h3>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-striped">
+      <!--<caption>Kontosalden</caption>-->
+
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Datum</th>
+        <th>Empfänger</th>
+        <th class="dz-num-cell">Betrag</th>
+        <th>Memo</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let booking of bookings">
+        <td><a [routerLink]="['/booking', booking.buchung_id]">{{booking.buchung_id | dzLeadingZeros:5}}</a>
+        <td>{{booking.datum | dzDate}}
+        <td>{{booking.empfaenger_name}}
+        <td class="dz-num-cell"
+            [ngClass]="{'dz-debit': booking.betrag < 0,'dz-credit-list': booking.betrag > 0}">
+          {{booking.betrag |dzCurrency}}
+        <td>{{booking.memo}}
+      </tbody>
+
+    </table>
+  </div>
+</div>
+<!--<button (click)="onClickTest()" class="btn btn-default">Test</button>-->

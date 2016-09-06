@@ -1,0 +1,245 @@
+<h3 *ngIf="id">Buchung {{id | dzLeadingZeros:5}} bearbeiten</h3>
+<h3 *ngIf="!id">Neue Buchung eingeben</h3>
+<a *ngIf="id" [routerLink]="['/account', konto]">Zum Konto</a>
+<hr>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+
+  <!-- ------------------------------------ -->
+  <!-- Buchung Id                           -->
+  <!-- ------------------------------------ -->
+  <div class="form-group"
+       [hidden]="!myForm.controls['datum'].value">
+    <label for="buchung-id" class="col-sm-2 control-label">Buchungs Id</label>
+    <div class="col-sm-3">
+      <input type="text"
+             class="form-control"
+             id="buchung-id"
+             formControlName="buchung-id"
+             autocomplete="off">
+    </div>
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Datum                                -->
+  <!-- ------------------------------------ -->
+  <div class="form-group">
+    <label for="datum" class="col-sm-2 control-label">Datum*</label>
+    <div class="col-sm-3">
+      <input type="text"
+             class="form-control"
+             id="datum"
+             formControlName="datum"
+             [date-edit]="myForm"
+             autocomplete="off">
+      <div *ngIf="getControl('datum').hasError('required') && getControl('datum').dirty"
+           class="alert alert-danger">
+        Datum fehlt.
+      </div>
+      <div *ngIf="getControl('datum').hasError('not-date')" class="alert alert-danger">
+        Datum ungültig.
+      </div>
+      <div *ngIf="getControl('datum')['_hint']"
+           class="alert alert-info">
+        {{getControl('datum')['_hint']}}
+      </div>
+    </div>
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Buchung Typ                          -->
+  <!-- ------------------------------------ -->
+  <div class="form-group" [hidden]="budget == 23">
+    <label for="buchung-typ" class="col-sm-2 control-label">Buchungsart</label>
+    <div class="col-sm-3">
+      <select
+          class="form-control"
+          id="buchung-typ"
+          formControlName="buchung-typ"
+          (change)="onChangeBuchungsTyp()">
+        <option
+            *ngFor="let typ of buchungtyp"
+            value="{{typ.id}}">
+          {{typ.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Konto                                -->
+  <!-- ------------------------------------ -->
+  <div class="form-group">
+    <label for="konten" class="col-sm-2 control-label">Konto*</label>
+    <div class="col-sm-3">
+      <select
+          class="form-control"
+          id="konten"
+          formControlName="konten">
+        <option
+            *ngFor="let account of accounts"
+            value="{{account.Id}}">
+          {{account.Name}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Gegenkonto                           -->
+  <!-- ------------------------------------ -->
+  <div class="form-group" [hidden]="getControlValue('buchung-typ') != 0 || getControlValue('infotypes') == 23">
+    <label for="gegenkonten" class="col-sm-2 control-label">Gegenkonto*</label>
+    <div class="col-sm-3">
+      <select
+          class="form-control"
+          id="gegenkonten"
+          formControlName="gegenkonten">
+        <option
+            *ngFor="let account of accounts | dz_different_account:getControlValue('konten')"
+            value="{{account.Id}}">
+          {{account.Name}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Partner                              -->
+  <!-- ------------------------------------ -->
+  <div class="form-group" [hidden]="budget == 23">
+    <label for="partner" class="col-sm-2 control-label">Partner*</label>
+    <div class="col-sm-3">
+      <select
+          class="form-control"
+          id="partner"
+          formControlName="partners">
+        <option
+            *ngFor="let partner of partners"
+            value="{{partner.Id}}">
+          {{partner.Name}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Cats                                 -->
+  <!-- ------------------------------------ -->
+  <div class="form-group" [hidden]="getControlValue('buchung-typ') == 0 || getControlValue('infotypes') == 23">
+    <label for="categories" class="col-sm-2 control-label">Kategorie*</label>
+
+    <!--Main -->
+    <div class="col-sm-3">
+      <select
+          class="form-control"
+          id="categories"
+          formControlName="categories"
+          (change)="getControl('subcats').setValue('');">
+        <option
+            *ngFor="let category of categories | dz_main_cat:getControlValue('buchung-typ')"
+            value="{{category.Id}}">
+          {{category.Name}}
+        </option>
+      </select>
+    </div>
+
+    <!-- Sub -->
+    <div class="col-sm-3">
+      <select
+          class="form-control"
+          formControlName="subcats">
+        <option
+            *ngFor="let subcat of categories | dz_sub_cat:getControlValue('categories')"
+            value="{{subcat.Id}}">
+          {{subcat.Name}}
+        </option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Betrag                               -->
+  <!-- ------------------------------------ -->
+  <div class="form-group">
+    <label for="betrag" class="col-sm-2 control-label">Betrag*</label>
+    <div class="col-sm-3">
+      <input type="text"
+             class="form-control"
+             id="betrag"
+             formControlName="betrag"
+             autocomplete="off"
+             [currency-edit]="myForm"
+             [ngClass]="{'dz-debit': getCurrency('betrag') < 0,
+                'dz-credit': getCurrency('betrag') >= 0,
+                 'dz-credit-umbuchung': (getCurrency('betrag') >= 0 && getControlValue('buchung-typ') == 0)}">
+      <div *ngIf="getControl('betrag').hasError('required') && getControl('betrag').dirty"
+           class="alert alert-danger">
+        Betrag fehlt.
+      </div>
+      <!-- Fehler aus Component -->
+      <div *ngIf="getControl('betrag').hasError('not-number')" class="alert alert-danger">
+        Betrag ungültig.
+      </div>
+    </div>
+    <!--
+          <div class="col-sm-1"><input disabled type="text" class="form-control" value="TEST">
+          </div>
+    -->
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Text                                 -->
+  <!-- ------------------------------------ -->
+  <div class="form-group">
+    <label for="text" class="col-sm-2 control-label">
+      Text
+    </label>
+    <div class="col-sm-6">
+      <input type="text"
+             class="form-control"
+             id="text"
+             formControlName="text">
+      <div *ngIf="!myForm.controls['text'].valid" class="alert alert-danger">Text ist ungültig</div>
+    </div>
+  </div>
+
+  <!-- ------------------------------------ -->
+  <!-- Budget                               -->
+  <!-- ------------------------------------ -->
+  <div class="form-group" [hidden]="getControlValue('buchung-typ') != -1
+      || getControlValue('buchung-typ') == 23">
+
+    <label for="infotypes" class="col-sm-2 control-label">Budget*</label>
+    <div class="col-sm-3">
+      <select
+          class="form-control"
+          id="infotypes"
+          formControlName="infotypes">
+        <option
+            *ngFor="let infotype of infotypes"
+            value="{{infotype.Id}}">
+          {{infotype.Name}}
+        </option>
+      </select>
+
+    </div>
+    <div class="checkbox col-sm-3">
+      <label class="control-label kandidate"
+             [ngClass]="{kandidateset: myForm.controls['kandidate'].value==1}">
+        <input type="checkbox"
+               class="control-label"
+               id="kandidate"
+               formControlName="kandidate">
+        Kandidat
+      </label>
+    </div>
+
+  </div>
+
+  <hr>
+
+</form>
+<br>
+<hr>
+<div>{{statusMessage}}</div>

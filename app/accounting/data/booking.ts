@@ -1,0 +1,21 @@
+export interface Booking {
+	buchung_id: number,
+	datum: string,
+	betrag: number,
+	memo: string,
+	type: number,
+	konto_id: number,
+	konto_name: string,
+	empfaenger_id: number,
+	empfaenger_name: string,
+	main_categorie_id: number,
+	main_categorie_name: string,
+	sub_categorie_id: number,
+	sub_categorie_name: string,
+	umbuchung_id: number,
+	gegenkonto_id: number,
+	gegenkonto_name: number,
+	infotype_id: number,
+	infotype_name: string,
+	Kandidate: boolean
+};
