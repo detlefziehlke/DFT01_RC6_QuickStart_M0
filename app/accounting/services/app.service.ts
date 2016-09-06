@@ -9,17 +9,20 @@ import {Partner} from "../data/partner";
 import {Account} from "../data/account";
 import {Category} from "../data/category";
 
+export type BookingPredicate = (e: Booking) => boolean;
+function and(predicates: BookingPredicate[]): BookingPredicate {
+	return (e) => predicates.every(p => p(e));
+}
+
 export class TableData<T> {
 	updateEvent = new EventEmitter<T[]>();
 	private tableData: T[];
 
-	constructor(private tableName: string, private http: HttpService) {
-
-	}
+	constructor(private tableName: string, private http: HttpService) {}
 
 	getTableData(): void {
 
-		if (this.tableData && this.tableData.length >= 0) {
+		if (this.tableData && this.tableData.length > 0) {
 			this.updateEvent.emit(this.tableData);
 			return;
 		}
@@ -37,7 +40,6 @@ export class TableData<T> {
 				error => console.log('error:', error)
 		);
 	}
-
 }
 
 @Injectable()
@@ -67,7 +69,6 @@ export class AppService {
 	bookings: Booking[] = [];
 	bookingsUpdate = new EventEmitter<Booking[]>();
 
-
 	tableData: {[key: string]: TableData<any>} = {
 		categories: new TableData<Category>('categories', this.http),
 		partners: new TableData<Partner>('partners', this.http),
@@ -78,12 +79,38 @@ export class AppService {
 	categoriesTableData = new TableData('categories', this.http);
 
 	constructor(private http: HttpService) {
-		this.getBookings();
+		console.log(11);
+		this.http.getBookingsAll().subscribe((data: Booking[]) => {
+					console.log(9);
+					if (data.length == 0) {
+						console.log('Keine Buchungen gefunden');
+						this.bookings = [];
+					}
+					else {
+						this.bookings = data;
+						console.log(10);
+					}
+				},
+				error => console.log('error:', error)
+		);
 	}
 
-	getBookings(): void {
+	getBookings(filter?: BookingPredicate | BookingPredicate[]): void {
+
+		var f: BookingPredicate[] = [];
+		if (filter)
+			if (Array.isArray(filter))
+				f = filter;
+			else
+				f.push(filter);
+
+		console.log(0, this.bookings, this.bookings.length);
+
 		if (this.bookings && this.bookings.length > 0) {
 			console.log(1);
+			if (f.length)
+				this.bookings = this.bookings.filter(and(f));
+
 			this.bookingsUpdate.emit(this.bookings);
 			return;
 		}
@@ -96,6 +123,10 @@ export class AppService {
 					}
 					else {
 						this.bookings = data;
+						console.log(3, this.bookings);
+						if (f.length)
+							this.bookings = this.bookings.filter(and(f));
+						console.log('3a', this.bookings);
 						this.bookingsUpdate.emit(this.bookings);
 					}
 				},

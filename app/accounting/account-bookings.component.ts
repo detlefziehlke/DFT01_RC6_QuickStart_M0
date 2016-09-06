@@ -18,7 +18,22 @@ export class AccountBookingsComponent implements OnInit {
 
 	constructor(private aR: ActivatedRoute, private appService: AppService, title: Title) {
 		this.id = aR.snapshot.params['id'];
-		this.appService.getBookingByAccountId(this.id).subscribe((b: Booking[]) => this.getBooking(b));
+
+		if (this.id)
+			this.appService.getBookingByAccountId(this.id).subscribe((b: Booking[]) => this.getBooking(b));
+
+		else {
+			this.appService.bookingsUpdate.subscribe((x: Booking[]) => {
+				this.bookings = x;
+				console.log('12',x);
+			});
+			this.appService.getBookings([
+					(x: Booking) => x.empfaenger_name.substr(0,1)=='D',
+					(x: Booking) => x.empfaenger_name.substr(1,1)!='M',
+			]);
+			// this.appService.getBookings();
+		}
+
 		let _title = aR.snapshot.data['title'] || 'DFT Kontobuchungen';
 		title.setTitle(_title);
 

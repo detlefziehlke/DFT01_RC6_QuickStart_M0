@@ -9,6 +9,7 @@
         <th>Id</th>
         <th>Konto</th>
         <th class="dz-num-cell">Saldo</th>
+        <th></th>
       </tr>
       </thead>
 
@@ -20,6 +21,7 @@
         <td class="dz-num-cell"
             [ngClass]="{'dz-debit': balance.saldo < 0,'dz-credit': balance.saldo > 0}">
           {{balance.saldo | dzCurrency}}
+        <td><a href="">neu</a> | <a href="">umb.</a></td>
       </tr>
       </tbody>
 
