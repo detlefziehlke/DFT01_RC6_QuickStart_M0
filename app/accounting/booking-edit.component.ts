@@ -9,6 +9,7 @@ import {Infotype} from "./data/infotype";
 import {Partner} from "./data/partner";
 import {Account} from "./data/account";
 import {Category} from "./data/category";
+import {Title} from "@angular/platform-browser";
 
 @Component({
 	selector: 'dz-booking-edit',
@@ -34,8 +35,11 @@ export class BookingEditComponent implements OnInit {
 	accounts: Account[];
 	categories: Category[];
 
-	constructor(private aR: ActivatedRoute, private appService: AppService, private formBuilder: FormBuilder) {
+	constructor(private aR: ActivatedRoute, private appService: AppService, private formBuilder: FormBuilder, title: Title) {
 		this.id = aR.snapshot.params['id'];
+		let _title = aR.snapshot.data['title'] || 'DFT Balances';
+		title.setTitle(_title + ' ' + this.id);
+
 
 		// console.log('BookingEditComponent#constructor', this.id);
 

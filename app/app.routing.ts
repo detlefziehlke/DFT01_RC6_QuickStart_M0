@@ -7,11 +7,11 @@ import {AccountBookingsComponent} from "./accounting/account-bookings.component"
 import {BookingEditComponent} from "./accounting/booking-edit.component";
 
 const appRoutes: Routes = [
-	{path: 'dashboard', component: DashboardComponent},
-	{path: 'balances', component: BalancesComponent},
+	{path: 'dashboard', component: DashboardComponent, data:{title: 'Dashboard'}},
+	{path: 'balances', component: BalancesComponent, data:{title: 'Kontostände'}},
 	{path: 'account/:id', component: AccountBookingsComponent},
-	{path: 'booking/:id', component: BookingEditComponent},
-	{path: 'booking', component: BookingEditComponent},
+	{path: 'booking/:id', component: BookingEditComponent, data:{title: 'Kontobuchungen'}},
+	{path: 'booking', component: BookingEditComponent, data:{title: 'Buchung'}},
 	{path: '', component: DashboardComponent},
 	{path: '**', component: PagenotfoundComponent}
 
