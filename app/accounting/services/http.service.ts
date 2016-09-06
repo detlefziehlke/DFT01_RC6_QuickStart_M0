@@ -23,7 +23,14 @@ export class HttpService {
 		},
 	}
 
-	constructor(private http: Http) {}
+	constructor(private http: Http) {
+
+	}
+
+	getBookingsAll(): Observable<Booking[]> {
+		return this.http.get('http://localhost:8080/finance/api/getEntriesAll')
+				.map(response => response.json());
+	}
 
 	getBalances(): Observable<Balance[]> {
 		let url = "http://macbook-pro:8080/finance/api/getBalances";

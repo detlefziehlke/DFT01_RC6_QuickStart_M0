@@ -43,25 +43,29 @@ export class TableData<T> {
 @Injectable()
 export class AppService {
 
+
+	/*
+	 infotypes: Infotype[];
+	 infotypesUpdated = new EventEmitter<Infotype[]>();
+
+	 partners: Partner[];
+	 partnersUpdated = new EventEmitter<Partner[]>();
+
+	 accounts: Account[];
+	 accountsUpdated = new EventEmitter<Account[]>();
+
+	 categories: Category[];
+	 categoriesUpdated = new EventEmitter<Category[]>();
+	 */
+
 	balancesUpdate = new EventEmitter<Balance[]>();
 	totalSaldoUpdate = new EventEmitter<number>();
 
-/*
-	infotypes: Infotype[];
-	infotypesUpdated = new EventEmitter<Infotype[]>();
-
-	partners: Partner[];
-	partnersUpdated = new EventEmitter<Partner[]>();
-
-	accounts: Account[];
-	accountsUpdated = new EventEmitter<Account[]>();
-
-	categories: Category[];
-	categoriesUpdated = new EventEmitter<Category[]>();
-*/
-
 	balances: Balance[] = [];
 	totalSaldo: number = 0;
+
+	bookings: Booking[] = [];
+	bookingsUpdate = new EventEmitter<Booking[]>();
 
 
 	tableData: {[key: string]: TableData<any>} = {
@@ -73,7 +77,31 @@ export class AppService {
 
 	categoriesTableData = new TableData('categories', this.http);
 
-	constructor(private http: HttpService) {}
+	constructor(private http: HttpService) {
+		this.getBookings();
+	}
+
+	getBookings(): void {
+		if (this.bookings && this.bookings.length > 0) {
+			console.log(1);
+			this.bookingsUpdate.emit(this.bookings);
+			return;
+		}
+
+		this.http.getBookingsAll().subscribe((data: Booking[]) => {
+					console.log(2);
+					if (data.length == 0) {
+						console.log('Keine Buchungen gefunden');
+						this.bookings = [];
+					}
+					else {
+						this.bookings = data;
+						this.bookingsUpdate.emit(this.bookings);
+					}
+				},
+				error => console.log('error:', error)
+		);
+	}
 
 	getBalances(): void {
 		this.http.getBalances().subscribe((balances: Balance[]) => {
@@ -84,15 +112,6 @@ export class AppService {
 			this.totalSaldo = balances.reduce((sum: number, balance: Balance) => sum + balance.saldo, 0);
 			this.totalSaldoUpdate.emit(this.totalSaldo);
 		});
-	}
-
-	testUpdate(id: number, amount: number): void {
-		this.balances.forEach((x: Balance) => {
-			if (x.id == id) x.saldo += amount;
-		});
-		this.balancesUpdate.emit(this.balances);
-		this.totalSaldo += amount;
-		this.totalSaldoUpdate.emit(this.totalSaldo);
 	}
 
 	balancesSumIsCredit(): boolean {
@@ -106,103 +125,6 @@ export class AppService {
 	getBookingById(id: number): Observable<Booking> {
 		return this.http.getBookingById(id).map((x: Booking[]) => x[0]);
 	}
-
-/*
-	getInfotypes(): void {
-
-		if (this.infotypes && this.infotypes.length >= 0) {
-			this.infotypesUpdated.emit(this.infotypes);
-			return;
-		}
-
-		this.http.getInfotypes().subscribe(
-				(data) => {
-					if (data.length == 0) {
-						console.log('Keine Budgets gefunden');
-						this.infotypes = [];
-					}
-					else {
-						this.infotypes = data;
-						this.infotypesUpdated.emit(this.infotypes);
-					}
-				},
-				error => console.log('error:', error)
-		);
-	}
-*/
-
-/*
-	getPartners(): void {
-
-		if (this.partners && this.partners.length >= 0) {
-			this.partnersUpdated.emit(this.partners);
-			return;
-		}
-
-		this.http.getPartners().subscribe(
-				(data) => {
-					if (data.length == 0) {
-						console.log('Keine Partner gefunden');
-						this.partners = [];
-					}
-					else {
-						this.partners = data;
-						this.partnersUpdated.emit(this.partners);
-					}
-				},
-				error => console.log('error:', error)
-		);
-	}
-*/
-
-/*
-	getAccounts(): void {
-
-		if (this.accounts && this.accounts.length >= 0) {
-			this.accountsUpdated.emit(this.accounts);
-			return;
-		}
-
-		this.http.getAccounts().subscribe(
-				(data) => {
-					if (data.length == 0) {
-						console.log('Keine Konten gefunden');
-						this.accounts = [];
-					}
-					else {
-						this.accounts = data;
-						this.accountsUpdated.emit(this.accounts);
-					}
-				},
-				error => console.log('error:', error)
-		);
-	}
-*/
-
-/*
-	getCategories(): void {
-
-		if (this.categories && this.categories.length >= 0) {
-			this.categoriesUpdated.emit(this.categories);
-			return;
-		}
-
-		// this.http.getCategories().subscribe(
-		this.http.getTableData<Category>('categories').subscribe(
-				(data) => {
-					if (data.length == 0) {
-						console.log('Keine Kategorien gefunden');
-						this.categories = [];
-					}
-					else {
-						this.categories = data;
-						this.categoriesUpdated.emit(this.categories);
-					}
-				},
-				error => console.log('error:', error)
-		);
-	}
-*/
 
 }
 

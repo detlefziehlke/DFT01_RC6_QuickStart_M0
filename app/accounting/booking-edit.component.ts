@@ -41,8 +41,6 @@ export class BookingEditComponent implements OnInit {
 		title.setTitle(_title + ' ' + this.id);
 
 
-		// console.log('BookingEditComponent#constructor', this.id);
-
 		this.myForm = this.formBuilder.group({
 			'buchung-id': [{value: '', disabled: true}],
 			'buchung-typ': ['-1', Validators.required],
@@ -84,20 +82,6 @@ export class BookingEditComponent implements OnInit {
 					}
 			);
 
-/*
-		this.appService.infotypesUpdated.subscribe(x => this.infotypes = x);
-		this.appService.partnersUpdated.subscribe(x => this.partners = x);
-		this.appService.accountsUpdated.subscribe(x => this.accounts = x);
-		this.appService.categoriesUpdated.subscribe(x => this.categories = x);
-
-		this.appService.getInfotypes();
-		this.appService.getPartners();
-		this.appService.getAccounts();
-		this.appService.getCategories();
-
-		this.appService.categoriesTableData.updateEvent.subscribe((x: Category[]) => this.categories = x);
-		this.appService.categoriesTableData.getTableData();
-*/
 
 		this.appService.tableData['infotypes'].updateEvent.subscribe((x: Infotype[]) => this.infotypes = x);
 		this.appService.tableData['infotypes'].getTableData();
