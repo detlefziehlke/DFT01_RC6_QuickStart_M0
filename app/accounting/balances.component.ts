@@ -34,7 +34,6 @@ export class BalancesComponent implements OnInit {
 			amount = +val[0];
 
 		console.log(konto, amount);
-		this.appServive.testUpdate(konto, amount);
 	}
 
 	balancesSumIsCredit(): boolean {

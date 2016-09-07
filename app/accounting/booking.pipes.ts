@@ -63,6 +63,7 @@ export class LeadingZerosPipe implements PipeTransform {
 	}
 }
 
+
 @Pipe({
 	name: 'dz_different_account'
 })

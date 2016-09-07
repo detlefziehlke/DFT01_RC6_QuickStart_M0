@@ -158,7 +158,6 @@ export class BookingEditComponent implements OnInit {
 	}
 
 	onChangeBuchungsTyp() {
-		// console.log('onChangeBuchungsTyp');
 		this.getControl('categories').setValue('');
 		this.getControl('subcats').setValue('');
 	}

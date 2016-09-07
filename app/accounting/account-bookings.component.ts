@@ -25,13 +25,11 @@ export class AccountBookingsComponent implements OnInit {
 		else {
 			this.appService.bookingsUpdate.subscribe((x: Booking[]) => {
 				this.bookings = x;
-				console.log('12',x);
 			});
 			this.appService.getBookings([
 					(x: Booking) => x.empfaenger_name.substr(0,1)=='D',
 					(x: Booking) => x.empfaenger_name.substr(1,1)!='M',
 			]);
-			// this.appService.getBookings();
 		}
 
 		let _title = aR.snapshot.data['title'] || 'DFT Kontobuchungen';

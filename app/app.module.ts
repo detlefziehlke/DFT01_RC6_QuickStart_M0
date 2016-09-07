@@ -28,13 +28,13 @@ import {MainCatFilterPipe, SubCatFilterPipe, DifferentAccountPipe} from "./accou
 		DzCurrencyPipe,
 		AccountBookingsComponent,
 		DzDatePipe,
-		DzLeadingZerosPipe,
 		BookingEditComponent,
-		CurrencyEdit,
+		DzLeadingZerosPipe,
 		DateEdit,
 		MainCatFilterPipe,
 		SubCatFilterPipe,
-		DifferentAccountPipe
+		DifferentAccountPipe,
+		CurrencyEdit
 	],
 	imports: [
 		BrowserModule,

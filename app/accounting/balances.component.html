@@ -2,7 +2,6 @@
 <div class="row">
   <div class="col-md-6">
     <table class="table table-striped">
-      <!--<caption>Kontosalden</caption>-->
 
       <thead>
       <tr>
@@ -17,7 +16,6 @@
       <tr *ngFor="let balance of balances | async">
         <td>{{balance.id}}
         <td><a [routerLink]="['/account', balance.id]">{{balance.konto}}</a>
-        <!--['/hero', hero.id]-->
         <td class="dz-num-cell"
             [ngClass]="{'dz-debit': balance.saldo < 0,'dz-credit': balance.saldo > 0}">
           {{balance.saldo | dzCurrency}}

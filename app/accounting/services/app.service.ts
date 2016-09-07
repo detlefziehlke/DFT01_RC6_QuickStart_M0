@@ -45,21 +45,6 @@ export class TableData<T> {
 @Injectable()
 export class AppService {
 
-
-	/*
-	 infotypes: Infotype[];
-	 infotypesUpdated = new EventEmitter<Infotype[]>();
-
-	 partners: Partner[];
-	 partnersUpdated = new EventEmitter<Partner[]>();
-
-	 accounts: Account[];
-	 accountsUpdated = new EventEmitter<Account[]>();
-
-	 categories: Category[];
-	 categoriesUpdated = new EventEmitter<Category[]>();
-	 */
-
 	balancesUpdate = new EventEmitter<Balance[]>();
 	totalSaldoUpdate = new EventEmitter<number>();
 
@@ -79,16 +64,13 @@ export class AppService {
 	categoriesTableData = new TableData('categories', this.http);
 
 	constructor(private http: HttpService) {
-		console.log(11);
 		this.http.getBookingsAll().subscribe((data: Booking[]) => {
-					console.log(9);
 					if (data.length == 0) {
 						console.log('Keine Buchungen gefunden');
 						this.bookings = [];
 					}
 					else {
 						this.bookings = data;
-						console.log(10);
 					}
 				},
 				error => console.log('error:', error)
@@ -100,14 +82,11 @@ export class AppService {
 		var f: BookingPredicate[] = [];
 		if (filter)
 			if (Array.isArray(filter))
-				f = filter;
+				f = <BookingPredicate[]>filter;
 			else
-				f.push(filter);
-
-		console.log(0, this.bookings, this.bookings.length);
+				f.push(<BookingPredicate>filter);
 
 		if (this.bookings && this.bookings.length > 0) {
-			console.log(1);
 			if (f.length)
 				this.bookings = this.bookings.filter(and(f));
 
@@ -116,17 +95,14 @@ export class AppService {
 		}
 
 		this.http.getBookingsAll().subscribe((data: Booking[]) => {
-					console.log(2);
 					if (data.length == 0) {
 						console.log('Keine Buchungen gefunden');
 						this.bookings = [];
 					}
 					else {
 						this.bookings = data;
-						console.log(3, this.bookings);
 						if (f.length)
 							this.bookings = this.bookings.filter(and(f));
-						console.log('3a', this.bookings);
 						this.bookingsUpdate.emit(this.bookings);
 					}
 				},
