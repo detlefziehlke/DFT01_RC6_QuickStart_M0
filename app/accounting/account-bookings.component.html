@@ -1,7 +1,8 @@
 <ul class="nav nav-pills">
-  <li><a href="">neu</a></li>
-  <li><a href="">umb</a></li>
+  <button class="btn btn-default" [routerLink]="['/booking', '0', 'neu']">Neu</button>
+  <button class="btn btn-default" [routerLink]="['/booking', '0', 'umb']">Umbuchung</button>
 </ul>
+
 
 <h3>Buchungen <span *ngIf="id">für Konto {{konto_name}} (id={{konto_id | dzLeadingZeros:2}})</span></h3>
 <div class="row">

@@ -1,4 +1,8 @@
 <h3>Kontostände</h3>
+<ul class="nav nav-pills">
+  <button class="btn btn-default" [routerLink]="['/booking', '0', 'neu']">Neu</button>
+  <button class="btn btn-default" [routerLink]="['/booking', '0', 'umb']">Umbuchung</button>
+</ul>
 <div class="row">
   <div class="col-md-6">
     <table class="table table-striped">
@@ -19,7 +23,8 @@
         <td class="dz-num-cell"
             [ngClass]="{'dz-debit': balance.saldo < 0,'dz-credit': balance.saldo > 0}">
           {{balance.saldo | dzCurrency}}
-        <td><a href="">neu</a> | <a href="">umb.</a></td>
+        <td><a [routerLink]="['/booking', balance.id, 'neu']">neu</a> |
+        <a [routerLink]="['/booking', balance.id, 'umb']">umb.</a></td>
       </tr>
       </tbody>
 

@@ -18,6 +18,7 @@ import {BookingEditComponent} from './accounting/booking-edit.component';
 import {CurrencyEdit} from './ui-core/currency-edit.directive';
 import {DateEdit} from './ui-core/date-edit.directive';
 import {MainCatFilterPipe, SubCatFilterPipe, DifferentAccountPipe} from "./accounting/booking.pipes";
+import {BookingTestComponent} from "./accounting/booking-test";
 
 @NgModule({
 	declarations: [
@@ -29,6 +30,7 @@ import {MainCatFilterPipe, SubCatFilterPipe, DifferentAccountPipe} from "./accou
 		AccountBookingsComponent,
 		DzDatePipe,
 		BookingEditComponent,
+		BookingTestComponent,
 		DzLeadingZerosPipe,
 		DateEdit,
 		MainCatFilterPipe,

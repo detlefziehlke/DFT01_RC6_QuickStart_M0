@@ -49,6 +49,7 @@ export class SubCatFilterPipe implements PipeTransform {
 	}
 }
 
+// todo: can't remove, can't find a reference on it
 @Pipe({
 	name: 'dz_leading_zeros'
 })

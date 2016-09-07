@@ -1,0 +1,13 @@
+<h3>Booking Test</h3>
+<ul class="nav nav-pills">
+  <button class="btn btn-default" (click)="onInit('neu')">Neu</button>
+  <button class="btn btn-default" (click)="onInit('umb')">Umbuchung</button>
+</ul>
+<br>
+<br>
+<div style="font-size: larger"><code>{{message}}</code></div>
+<br>
+<br>
+<button class="btn btn-default" (click)="onSaveContinue()">Speichern ...</button>
+<button class="btn btn-default" routerLink="/balances">Speichern</button>
+<button class="btn btn-default" (click)="onDelete()">Löschen</button>
