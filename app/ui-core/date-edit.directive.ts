@@ -15,14 +15,16 @@ export class DateEdit implements OnInit {
   @Input('no-keypress') noKeypress: boolean = false;
 
   @HostListener('focus') onFocus() {
+		// console.log('focus');
     let val = this.ele.nativeElement.value;
     let val1 = DzUtil.parse_date(val);
     this.ele.nativeElement.value = val1;
     this.control['_hint'] = DzUtil.dateDiffString(val1);
+    this.control['_touched'] = true;
   }
 
   @HostListener('keydown') onKeyDown($event: KeyboardEvent) {
-
+		// console.log('keydown');
     let keyboardEvent = event as KeyboardEvent;
 
     if (this.nokey) return;
@@ -110,6 +112,7 @@ export class DateEdit implements OnInit {
   }
 
   @HostListener('blur') onBlur() {
+		// console.log('blur');
     var value = this.ele.nativeElement.value;
     if (!DzUtil.isDate(value)) {
       let d = DzUtil.autocompleteDate(value);

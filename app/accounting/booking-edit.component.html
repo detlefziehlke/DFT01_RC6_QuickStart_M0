@@ -1,6 +1,12 @@
 <h3 *ngIf="id">Buchung {{id | dzLeadingZeros:5}} bearbeiten</h3>
 <h3 *ngIf="!id">Neue Buchung eingeben</h3>
 <a *ngIf="id" [routerLink]="['/account', konto]">Zum Konto</a>
+<ul class="nav nav-pills">
+  <!--<button class="btn btn-default" (click)="onInit('neu')">Neu</button>-->
+  <button class="btn btn-default" (click)="onInit('neu')">Neu</button>
+  <button class="btn btn-default" (click)="onInit('umb')">Umbuchung</button>
+  <button class="btn btn-default" (click)="onTest()">Test</button>
+</ul>
 <hr>
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="form-horizontal">
 
@@ -8,7 +14,7 @@
   <!-- Buchung Id                           -->
   <!-- ------------------------------------ -->
   <div class="form-group"
-       [hidden]="!myForm.controls['datum'].value">
+       [hidden]="!id">
     <label for="buchung-id" class="col-sm-2 control-label">Buchungs Id</label>
     <div class="col-sm-3">
       <input type="text"
@@ -39,6 +45,7 @@
         Datum ungültig.
       </div>
       <div *ngIf="getControl('datum')['_hint']"
+            [hidden]="!getControl('datum').touched"
            class="alert alert-info">
         {{getControl('datum')['_hint']}}
       </div>

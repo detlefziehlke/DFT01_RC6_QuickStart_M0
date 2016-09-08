@@ -16,8 +16,8 @@ const appRoutes: Routes = [
 	// {path: 'booking/:id', component: BookingEditComponent, data:{title: 'Kontobuchungen'}},
 	// {path: 'booking', component: BookingEditComponent, data:{title: 'Buchung'}},
 
-	{path: 'booking/:id', component: BookingTestComponent, data:{title: 'Buchung'}},
-	{path: 'booking/:konto/:mode', component: BookingTestComponent, data:{title: 'Buchung'}},
+	{path: 'booking/:id', component: BookingEditComponent, data:{title: 'Buchung'}},
+	{path: 'booking/:konto/:mode', component: BookingEditComponent, data:{title: 'Buchung'}},
 
 
 	{path: '', component: DashboardComponent},
