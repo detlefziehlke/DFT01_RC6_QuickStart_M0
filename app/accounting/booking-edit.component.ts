@@ -160,6 +160,7 @@ export class BookingEditComponent {
 		});
 
 		this.getControl('datum').valueChanges.subscribe(x => console.log('===> valueChanges', x));
+		this.getControl('datum')['_history'] = [];
 		console.log('*********** defineForm - ende');
 
 	}
@@ -215,7 +216,6 @@ export class BookingEditComponent {
 			}
 			control['_hint'] = '';
 			return {'not-date': true};
-
 		}
 
 		if (this.loading) {
@@ -224,6 +224,9 @@ export class BookingEditComponent {
 		}
 		else {
 			control['_hint'] = DzUtil.dateDiffString(v1);
+			let history = control['_history'];
+			if (history[history.length - 1] != v1)
+				control['_history'] .push(v1);
 			console.log('_hint 2:', control['_hint']);
 		}
 
@@ -231,11 +234,7 @@ export class BookingEditComponent {
 	}
 
 	onTest() {
-		let hint = this.getControl('datum')['_hint'];
-		if (hint && hint.length > 0)
-			this.getControl('datum')['_hint'] = '';
-		else
-			this.getControl('datum')['_hint'] = 'bla bla';
+		console.log(this.getControl('datum')['_history']);
 	}
 
 	getControl(name: string): FormControl {
